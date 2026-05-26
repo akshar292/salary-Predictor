@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import pickle
 
@@ -21,10 +22,10 @@ model = pickle.load(open("salary_api.pkl", "rb"))
 class InputData(BaseModel):
     experience: float
 
-# Home Route
+# Serve Frontend
 @app.get("/")
 def home():
-    return {"message": "All OK"}
+    return FileResponse("index.html")
 
 # Prediction Route
 @app.post("/predict")

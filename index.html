@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Salary Predictor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card">
+
+        <h2>Salary Predictor</h2>
+
+        <input
+            type="number"
+            id="exp"
+            placeholder="Enter experience"
+        >
+
+        <br>
+
+        <button onclick="predictSalary()">
+            Predict
+        </button>
+
+        <p id="result"></p>
+
+    </div>
+
+    <script>
+
+        async function predictSalary() {
+
+            const exp = document.getElementById("exp").value;
+
+            try {
+
+                const response = await fetch(
+                    "https://YOUR-RENDER-URL.onrender.com/predict",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            experience: exp
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                document.getElementById("result").innerText =
+                    "Predicted Salary: ₹ " +
+                    data.predicted_salary.toFixed(2);
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                document.getElementById("result").innerText =
+                    "❌ Error connecting to backend";
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
